@@ -1,6 +1,10 @@
 # CZ3005---doctor-chatbot
-Text-messaging-base doctor chatbot that diagnose patient illness
+Text-messaging-based doctor chatbot that diagnose patient illness
 
+## Technologies used
+- SWI-Prolog
+- Node.js
+- Web languages (Javascript, CSS, HTML)
 
 ## Pre-requisites
 In order to execute the program as intended, the following conditions must be met:
