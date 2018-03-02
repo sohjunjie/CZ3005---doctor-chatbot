@@ -9,10 +9,12 @@ random_symptom(injury, X):- injury(L), random_member(X,L).
 
 random_pain(X):- pain_library(L), member(X, L).
 
-illness([fever, cold, injury]).
-fever([temperature, sweat, ache, weepy]).
-cold([sneeze, cough, dry_throat, temperature]).
-injury([cut, lot_of_pain, wound, bad_temper]).
+illness([fever, cold, injury, myopia, terminal_illness]).
+fever([temperature, sweat, ache, hot_forehead, friend_with_fever]).
+cold([sneeze, cough, dry_throat, bad_appetite, friend_with_cold]).
+injury([cut, lot_of_pain, wound, bad_temper, bruise]).
+myopia([sore_eye, blurry_vision, sudden_blindness, slow_vision, bad_vision]).
+terminal_illness([muscle_pain, nervous_shock, lung_pain, heart_pain, bone_pain]).
 
 pain_library([unbearable_pain, lot_of_pain, manageable_pain, mild_pain, no_pain]).
-mood_library([calm, angry, weepy, stressed]).
+mood_library([calm, angry, weepy, stressed, confused]).
