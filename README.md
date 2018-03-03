@@ -1,5 +1,5 @@
 # CZ3005---doctor-chatbot
-Text-messaging-based doctor chatbot that diagnose patient illness
+Text-messaging-based doctor chatbot that diagnose patient illness. The patient can press yes or no button to reply the doctor. Restart button can be press to restart the doctor chatbot.
 
 ## Technologies used
 - SWI-Prolog
