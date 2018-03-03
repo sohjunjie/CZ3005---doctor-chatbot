@@ -187,7 +187,7 @@ doctor.handlePatientResponse = function(resp) {
 
   if (doctor.state == GESTURE_IDENTIFIED_STATE) {
           if (resp == "yes") {
-            doctor.sendMessage('Looks like it is a ' + doctor.patient.illness + '.');
+            doctor.sendMessage('Looks like it is a ' + doctor.patient.illness.replace(/_/g, " ") + '.');
             if (!(doctor.patient.illness in doctor.patient.illnessCounter)) {
               doctor.patient.illnessCounter[doctor.patient.illness] = 1;
             } else {
@@ -215,16 +215,19 @@ doctor.handlePatientResponse = function(resp) {
   if (doctor.state == IDENTIFY_ILLNESS_STATE) {
           let max = -1;
           let illness = null;
+          let diagnosisSummary = "SUMMARY<br/>";
           Object.entries(doctor.patient.illnessCounter).forEach(([key, value]) => {
             if (value > max) {
               max = value;
               illness = key;
             }
+            diagnosisSummary = diagnosisSummary +
+                               key + ": " + value + "<br/>"
           });
 
           if (illness != null){
             doctor.patient.finalDiagnosis = illness;
-            doctor.sendMessage('Here is your diagnosis: ' + illness.replace(/_/g, " ") + '. Alright end of diagnosis :)');
+            doctor.sendMessage(diagnosisSummary + 'Here is your diagnosis: ' + illness.replace(/_/g, " ") + '. Alright end of diagnosis :)');
           } else {
             doctor.sendMessage('Here is your diagnosis: You are perfectly healthy! <i class="em em-muscle"></i>');
           }
