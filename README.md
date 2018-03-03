@@ -18,4 +18,4 @@ In order to execute the program as intended, the following conditions must be me
 
 ## Sample screens
 
-![alt text](_sample_image/sample_screen.JPG | width="55%")
+![alt text](_sample_image/sample_screen.JPG)
