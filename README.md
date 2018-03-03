@@ -14,3 +14,8 @@ In order to execute the program as intended, the following conditions must be me
 ## Starting the program
 1. Execute the command `npm start`
 2. Go to `http://localhost:3000/`
+
+
+## Sample screens
+
+![alt text](_sample_image/sample_screens.jpg)
