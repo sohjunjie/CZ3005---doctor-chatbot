@@ -6,8 +6,8 @@ random_illness(X):- illness(L), random_member(X,L).
 random_symptom(fever, X):- fever(L), random_member(X,L).
 random_symptom(cold, X):- cold(L), random_member(X,L).
 random_symptom(injury, X):- injury(L), random_member(X,L).
-
-random_pain(X):- pain_library(L), member(X, L).
+random_symptom(myopia, X):- myopia(L), random_member(X,L).
+random_symptom(terminal_illness, X):- terminal_illness(L), random_member(X,L).
 
 illness([fever, cold, injury, myopia, terminal_illness]).
 fever([temperature, sweat, ache, hot_forehead, friend_with_fever]).
