@@ -52,9 +52,7 @@ router.get('/gesture/list', function(req, res, next) {
 router.get('/random/illness/symptom', function(req, res, next) {
   swipl.call('consult(routes/prolog/illness)');
   let ret = swipl.call('get_random_illness_symptom(X,Y)');
-  let illness = ret.X;
-  let symptom = ret.Y;
-  res.json({illness: illness, symptom: symptom});
+  res.json({illness: ret.X, symptom: ret.Y});
 });
 
 module.exports = router;

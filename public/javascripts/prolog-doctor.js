@@ -148,7 +148,7 @@ doctor.queryPatientIllnessSymptom = function(){
       let gesture = randomArrayItem(doctor.gestureList);
       doctor.patient.illness = data.illness;
       doctor.patient.symptom = data.symptom;
-      doctor.sendMessage("Do you have a " + doctor.patient.symptom + "? *" + gesture.replace(/_/g, " ") + "* " +
+      doctor.sendMessage("Do you have a " + doctor.patient.symptom.replace(/_/g, " ") + "? *" + gesture.replace(/_/g, " ") + "* " +
                          "<i class=\"em " + doctor.gestureToEmojiMapping(gesture) + "\"></i>");
     },
     error: function(err) {
@@ -224,7 +224,7 @@ doctor.handlePatientResponse = function(resp) {
 
           if (illness != null){
             doctor.patient.finalDiagnosis = illness;
-            doctor.sendMessage('Here is your diagnosis: ' + illness);
+            doctor.sendMessage('Here is your diagnosis: ' + illness.replace(/_/g, " ") + '. Alright end of diagnosis :)');
           } else {
             doctor.sendMessage('Here is your diagnosis: You are perfectly healthy! <i class="em em-muscle"></i>');
           }
