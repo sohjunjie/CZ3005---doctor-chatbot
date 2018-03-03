@@ -30,7 +30,7 @@ doctor.displayDateSummary = function() {
 
 // create incoming doctor message
 doctor.sendMessage = function(msg) {
-  play_notification_sound('sound/sound4.mp3')
+  play_notification_sound('sound/sound2.mp3')
   let messageDetail = {
     AuthorFullName: "My favourite doctor",
     Message: msg,
@@ -41,7 +41,7 @@ doctor.sendMessage = function(msg) {
 
 // create outgoing patient message
 doctor.replyMessage = function(msg) {
-  play_notification_sound('sound/sound3.mp3')
+  play_notification_sound('sound/sound1.mp3')
   let messageDetail = {
     AuthorFullName: "Me",
     Message: msg,
