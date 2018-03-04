@@ -13,7 +13,7 @@ doctor.patient.mood = null;
 doctor.patient.pain = null;
 doctor.patient.illness = null;
 doctor.patient.symptom = null;
-doctor.patient.illnessCounter = {};
+doctor.patient.illnessCounter = null;
 doctor.patient.finalDiagnosis = null;
 
 doctor.state = WELCOME_STATE;
@@ -83,6 +83,18 @@ doctor.queryPatientMood = function() {
       url: "pain/list",
       success: function(data, status){
         doctor.painLibrary = shuffleArray(data.painList);
+      },
+      error: function(err) {
+        doctor.state = WELCOME_STATE;
+      }
+    });
+    $.ajax({
+      async: false,
+      type: "GET",
+      dataType: 'json',
+      url: "illness/counter/list",
+      success: function(data, status){
+        doctor.patient.illnessCounter = data.illnessCounterList;
       },
       error: function(err) {
         doctor.state = WELCOME_STATE;
@@ -158,6 +170,58 @@ doctor.queryPatientIllnessSymptom = function(){
 
 }
 
+doctor.giveFinalDiagnosis = function() {
+
+  let payload = { illnessCounterList: doctor.patient.illnessCounter };
+  let illnessList = [];
+  let diagnosisSummary = "SUMMARY<br/>";
+  let diagnosedIllness = null;
+  $.ajax({
+    async: false,
+    type: "GET",
+    dataType: 'json',
+    url: "illness/list",
+    success: function(data, status){
+      illnessList = data.illnessList;
+    },
+    error: function(err) {
+      console.log(err);
+    }
+  });
+  $.ajax({
+    async: false,
+    type: "POST",
+    data: payload,
+    dataType: 'json',
+    url: "diagnose/illness",
+    success: function(data, status){
+      diagnosedIllness = data.diagnosedIllness;
+      doctor.patient.finalDiagnosis = diagnosedIllness;
+    },
+    error: function(err) {
+        console.log('error');
+    }
+  });
+
+  // illness counter length should correspond illness list length
+  if (doctor.patient.illnessCounter.length != illnessList.length) {
+    return;
+  }
+  // diagnosis result must not be null
+  if (diagnosedIllness == null) {
+    return
+  }
+
+  for (let i = 0; i < illnessList.length; i++) {
+    if (doctor.patient.illnessCounter[i] > 0) {
+      diagnosisSummary = diagnosisSummary +
+                         illnessList[i] + ": " + doctor.patient.illnessCounter[i] + "<br/>";
+    }
+  }
+  doctor.sendMessage(diagnosisSummary + 'Here is your diagnosis: ' + diagnosedIllness.replace(/_/g, " ") + '. Alright end of diagnosis :)');
+
+}
+
 // doctor chatbot algorithm handles user yes no response base on the diagnosis
 // progress state
 doctor.handlePatientResponse = function(resp) {
@@ -188,12 +252,7 @@ doctor.handlePatientResponse = function(resp) {
   if (doctor.state == GESTURE_IDENTIFIED_STATE) {
           if (resp == "yes") {
             doctor.sendMessage('Looks like it is a ' + doctor.patient.illness.replace(/_/g, " ") + '.');
-            if (!(doctor.patient.illness in doctor.patient.illnessCounter)) {
-              doctor.patient.illnessCounter[doctor.patient.illness] = 1;
-            } else {
-              doctor.patient.illnessCounter[doctor.patient.illness] += 1;
-            }
-
+            doctor.incrementIllnessCounter(doctor.patient.illness);
             doctor.sendMessage('Do u still feel anywhere wrong?');
             doctor.state = ILLNESS_DIAGNOSIS_STATE;
             resp = "awaiting patient response";
@@ -213,24 +272,7 @@ doctor.handlePatientResponse = function(resp) {
   }
 
   if (doctor.state == IDENTIFY_ILLNESS_STATE) {
-          let max = -1;
-          let illness = null;
-          let diagnosisSummary = "SUMMARY<br/>";
-          Object.entries(doctor.patient.illnessCounter).forEach(([key, value]) => {
-            if (value > max) {
-              max = value;
-              illness = key;
-            }
-            diagnosisSummary = diagnosisSummary +
-                               key + ": " + value + "<br/>"
-          });
-
-          if (illness != null){
-            doctor.patient.finalDiagnosis = illness;
-            doctor.sendMessage(diagnosisSummary + 'Here is your diagnosis: ' + illness.replace(/_/g, " ") + '. Alright end of diagnosis :)');
-          } else {
-            doctor.sendMessage('Here is your diagnosis: You are perfectly healthy! <i class="em em-muscle"></i>');
-          }
+          doctor.giveFinalDiagnosis();
           doctor.state = DIAGNOSIS_COMPLETED_STATE;
           resp = "no response expected";
   }
@@ -246,6 +288,26 @@ doctor.handlePatientResponse = function(resp) {
   }
 
 };
+
+doctor.incrementIllnessCounter = function(diagnoseIllness) {
+  let payload = {
+        illness: diagnoseIllness,
+        illnessCounterList: doctor.patient.illnessCounter
+  };
+  $.ajax({
+    async: false,
+    type: "POST",
+    data: payload,
+    dataType: 'json',
+    url: "increment/illness/counter",
+    success: function(data, status){
+      doctor.patient.illnessCounter = data.newIllnessCounterList;
+    },
+    error: function(err) {
+        console.log('error');
+    }
+  });
+}
 
 // patient reply yes
 doctor.replyMsgYes = function() {
@@ -263,7 +325,7 @@ doctor.replyMsgNo = function() {
 doctor.restartDiagnosis = function() {
   $("#ChatMessageContainer").empty();
   doctor.state = WELCOME_STATE;
-  doctor.patient.illnessCounter = {};
+  doctor.patient.illnessCounter = null;
   doctor.dislayWelcomeMessage();
 };
 

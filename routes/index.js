@@ -33,6 +33,19 @@ router.get('/pain/list', function(req, res, next) {
   res.json({painList: painList});
 });
 
+// query illness library list
+router.get('/illness/list', function(req, res, next) {
+  swipl.call('consult(routes/prolog/illness)');
+  let illnessList = [];
+  let ret = swipl.call('illness(X)');
+  ret = ret.X;
+  while (ret.head != null) {
+    illnessList.push(ret.head);
+    ret = ret.tail;
+  }
+  res.json({illnessList: illnessList});
+});
+
 // query appropriate gesture base on pain and mood
 router.get('/gesture/list', function(req, res, next) {
   swipl.call('consult(routes/prolog/gesture)');
@@ -54,5 +67,47 @@ router.get('/random/illness/symptom', function(req, res, next) {
   let ret = swipl.call('get_random_illness_symptom(X,Y)');
   res.json({illness: ret.X, symptom: ret.Y});
 });
+
+// query prolog illness counter list with all zeros
+router.get('/illness/counter/list', function(req, res, next) {
+  swipl.call('consult(routes/prolog/illness)');
+  let illnessCounterList = [];
+  let ret = swipl.call('build_illness_list_counter(X)');
+  ret = ret.X;
+  while (ret.head != null) {
+    illnessCounterList.push(ret.head);
+    ret = ret.tail;
+  }
+  res.json({illnessCounterList: illnessCounterList});
+});
+
+// return the incremented illness counter list given the illness
+router.post('/increment/illness/counter', function(req, res) {
+
+  swipl.call('consult(routes/prolog/illness)');
+  let illnessCounterList = req.body['illnessCounterList[]'];
+  let illness = req.body['illness'];
+  let illnessCounterListString = '[' + illnessCounterList.join(',') + ']';
+  let newIllnessCounterList = [];
+  let ret = swipl.call('increment_illness_counter(' + illnessCounterListString + ',' + illness + ', X)');
+  ret = ret.X;
+  while (ret.head != null) {
+    newIllnessCounterList.push(ret.head);
+    ret = ret.tail;
+  }
+  res.json({newIllnessCounterList: newIllnessCounterList});
+});
+
+// give the final illness diagnosis base on the illness counter
+router.post('/diagnose/illness', function(req, res) {
+
+  swipl.call('consult(routes/prolog/illness)');
+  let illnessCounterList = req.body['illnessCounterList[]'];
+  let illnessCounterListString = '[' + illnessCounterList.join(',') + ']';
+  let ret = swipl.call('give_illness_diagnosis(' + illnessCounterListString + ',' + 'X)');
+  let diagnosedIllness = ret.X;
+  res.json({diagnosedIllness: diagnosedIllness});
+});
+
 
 module.exports = router;
