@@ -1,3 +1,10 @@
+/**
+ * Doctor gestures knowledge base
+ * @author soh jun jie
+ * @version 1.0
+ * @since 2018-3-4
+ */
+
 % gesture rules, return X is the instances of the identified gestures
 appropriate_gesture(unbearable_pain, calm, X):- polite_gesture(X).
 appropriate_gesture(unbearable_pain, angry, X):- calming_gesture(X).

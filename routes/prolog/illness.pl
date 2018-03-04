@@ -1,3 +1,10 @@
+/**
+ * Doctor illness knowledge base
+ * @author soh jun jie
+ * @version 1.0
+ * @since 2018-3-4
+ */
+
 % generate a random illness-symptom pairing
 get_random_illness_symptom(X, Y):-
   random_illness(X),
