@@ -9,7 +9,9 @@ Text-messaging-based doctor chatbot that diagnose patient illness. The patient c
 ## Pre-requisites
 In order to execute the program as intended, the following conditions must be met:
 - There must be internet connection (references were made to some online css file)
-- Node.js dependencies must be installed `npm install`
+- Window build tools node page must be installed `npm install --global --production windows-build-tools`
+- Ensure that SWI-Prolog is added to path e.g. `C:\Program Files\swipl\bin` since the node_module dependencies `swipl` requires so
+- All Node.js dependencies must be installed using `npm install`
 
 ## Starting the program
 1. Execute the command `npm start`
