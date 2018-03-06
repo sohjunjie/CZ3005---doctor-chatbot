@@ -11,8 +11,8 @@ For this assignment, I have developed two type of solutions.
 #### 1. interactive prolog doctor chatbot
 I attempted to create an interactive doctor chatbot using `node.js` which integrates in `SWI-Prolog` via the `swipl` node module. The following shows a sample interface of the program.
 
-[link to interactive prolog doctor](interactive_prolog_doctor/README.md | width=100)
-![alt text](interactive_prolog_doctor/_sample_image/sample_screen.JPG | width=100)
+[link to interactive prolog doctor](interactive_prolog_doctor/README.md)
+![alt text](interactive_prolog_doctor/_sample_image/sample_screen.JPG =250x250)
 
 #### 2. pure prolog doctor chatbot
 I attempted to create an doctor chatbot purely using prolog. The following shows a sample execution of the program.
