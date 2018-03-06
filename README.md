@@ -9,13 +9,11 @@ Assume that the prolog script is a sympathetic doctor, conversing with a patient
 For this assignment, I have developed two type of solutions.
 
 #### 1. interactive prolog doctor chatbot
-I attempted to create an interactive doctor chatbot using `node.js` which integrates in `SWI-Prolog` via the `swipl` node module. The following shows a sample interface of the program.
+I attempted to create an interactive doctor chatbot using `node.js` which integrates in `SWI-Prolog` via the `swipl` node module. The following shows a sample interface of the program. Link to interactive prolog doctor [here](interactive_prolog_doctor/)
 
-[link to interactive prolog doctor](interactive_prolog_doctor/README.md)
 ![alt text](interactive_prolog_doctor/_sample_image/sample_screen2.jpg)
 
 #### 2. pure prolog doctor chatbot
-I attempted to create an doctor chatbot purely using prolog. The following shows a sample execution of the program.
+I attempted to create an doctor chatbot purely using prolog. The following shows a sample execution of the program. Link to pure prolog doctor [here](pure_prolog_doctor)
 
-[link to pure prolog doctor](pure_prolog_doctor/README.md)
 ![alt text](pure_prolog_doctor/sample_image.jpg)
